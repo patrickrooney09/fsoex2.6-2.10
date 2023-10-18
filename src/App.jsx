@@ -10,9 +10,22 @@ function App() {
       name: newName,
       // id: persons.length + 1,
     };
+    const duplicateCheck = (persons, name) => {
+      let isDuplicate = false;
+      persons.map((currentPerson) => {
+        if (currentPerson.name.toLowerCase() === name.toLowerCase()) {
+          return (isDuplicate = true);
+        }
+      });
+      return isDuplicate;
+    };
 
-    setPersons([...persons, newPerson]);
-    setNewName("");
+    if (duplicateCheck(persons, newName) !== false) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      setPersons([...persons, newPerson]);
+      setNewName("");
+    }
   };
 
   const handleNameChange = (event) => {
