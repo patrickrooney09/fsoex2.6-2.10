@@ -1,3 +1,5 @@
+import personService from "./services/persons";
+
 function PersonForm(props) {
   const { newName, setNewName, newNumber, setNewNumber, persons, setPersons } =
     props;
@@ -19,6 +21,7 @@ function PersonForm(props) {
       number: newNumber,
       display: "on",
     };
+    console.log(newName, newNumber);
     const duplicateCheck = (persons, name) => {
       let isDuplicate = false;
       persons.map((currentPerson) => {
@@ -32,9 +35,11 @@ function PersonForm(props) {
     if (duplicateCheck(persons, newName) !== false) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons([...persons, newPerson]);
-      setNewName("");
-      setNewNumber("");
+      personService.create(newPerson).then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
 
