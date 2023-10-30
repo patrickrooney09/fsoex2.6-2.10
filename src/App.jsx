@@ -32,7 +32,7 @@ function App() {
       />
 
       <h2>Numbers</h2>
-      <Numbers persons={persons} />
+      <Numbers persons={persons} setPersons={setPersons} />
     </div>
   );
 }

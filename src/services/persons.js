@@ -10,4 +10,16 @@ const create = (newObject) => {
   return axios.post(baseUrl, newObject);
 };
 
-export default { getAll, create };
+const removeNumber = (id) => {
+  console.log(id);
+  return axios
+    .delete(`${baseUrl}/${id}`)
+    .then((response) => {
+      console.log("Deleted successfully", response.data);
+    })
+    .catch((error) => {
+      console.error("error deleting", error);
+    });
+};
+
+export default { getAll, create, removeNumber };
