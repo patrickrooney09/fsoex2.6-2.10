@@ -33,7 +33,19 @@ function PersonForm(props) {
     };
 
     if (duplicateCheck(persons, newName) !== false) {
-      alert(`${newName} is already added to phonebook`);
+      // alert(`${newName} is already added to phonebook`);
+      if (
+        window.confirm(
+          `${newName} is already in the phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const personToChange = persons.filter((currentPerson) => {
+          if (currentPerson.name === newName) {
+            return currentPerson;
+          }
+        });
+        personService.updateNumber(personToChange[0].id, newPerson);
+      }
     } else {
       personService.create(newPerson).then((response) => {
         setPersons(persons.concat(response.data));

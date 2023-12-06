@@ -22,4 +22,19 @@ const removeNumber = (id) => {
     });
 };
 
-export default { getAll, create, removeNumber };
+const updateNumber = (id, person) => {
+  return axios
+    .put(`${baseUrl}/${id}`, {
+      name: person.name,
+      number: person.number,
+      // Other properties to be updated on the server
+    })
+    .then((response) => {
+      console.log("Updated user:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error updating user:", error);
+    });
+};
+
+export default { getAll, create, removeNumber, updateNumber };
