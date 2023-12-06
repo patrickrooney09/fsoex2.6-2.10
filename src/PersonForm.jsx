@@ -1,8 +1,16 @@
 import personService from "./services/persons";
 
 function PersonForm(props) {
-  const { newName, setNewName, newNumber, setNewNumber, persons, setPersons } =
-    props;
+  const {
+    newName,
+    setNewName,
+    newNumber,
+    setNewNumber,
+    persons,
+    setPersons,
+    setNotificationMessage,
+    setErrorMessage,
+  } = props;
 
   const handleNameChange = (event) => {
     event.preventDefault();
@@ -44,7 +52,19 @@ function PersonForm(props) {
             return currentPerson;
           }
         });
-        personService.updateNumber(personToChange[0].id, newPerson);
+        personService
+          .updateNumber(personToChange[0].id, newPerson)
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            setErrorMessage(
+              `${newPerson.name} was already deleted from the server`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+          });
       }
     } else {
       personService.create(newPerson).then((response) => {
@@ -52,6 +72,11 @@ function PersonForm(props) {
         setNewName("");
         setNewNumber("");
       });
+
+      setNotificationMessage(`${newPerson.name}'s number added to phonebook`);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
     }
   };
 
